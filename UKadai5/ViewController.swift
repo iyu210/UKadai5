@@ -11,29 +11,30 @@ class ViewController: UIViewController {
     @IBOutlet weak private var leftTextField: UITextField!
     @IBOutlet weak private var rightTextField: UITextField!
     @IBOutlet weak private var resultLabel: UILabel!
-    private var alertController: UIAlertController!
+
     @IBAction func calcButton(_ sender: Any) {
-        guard leftTextField.text != "" else {
-            alert(title: "課題5", message: "割られる数を入力してください。", responseMessage: "OK")
+        guard let num1 = Float(leftTextField.text ?? "") else {
+            alert(title: "課題5", message: "割られる数を入力してください。")
             return
         }
-        guard rightTextField.text != "" else {
-            alert(title: "課題5", message: "割る数を入力してください。", responseMessage: "OK")
+
+        guard let num2 = Float(rightTextField.text ?? "") else {
+            alert(title: "課題5", message: "割る数を入力してください。")
             return
         }
-        let num1 = Float(leftTextField.text ?? "") ?? 0
-        let num2 = Float(rightTextField.text ?? "") ?? 0
-        if num2 == 0 {
-            alert(title: "課題5", message: "割る数には0以外を入力してください。", responseMessage: "OK")
+
+        guard num2 != 0 else {
+            alert(title: "課題5", message: "割る数には0以外を入力してください。")
             rightTextField.text = ""
-        } else {
-            print(num1 / num2)
-            resultLabel.text = "\(num1 / num2)"
+            return
         }
+
+        resultLabel.text = "\(num1 / num2)"
     }
-    func alert(title: String, message: String, responseMessage: String) {
-        alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: responseMessage, style: .default, handler: nil))
+    
+    func alert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alertController, animated: true)
     }
 }
